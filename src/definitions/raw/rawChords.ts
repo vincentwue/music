@@ -1,4 +1,4 @@
-import { IRawInterval, rawIntervals } from "./intervals"
+import { IRawInterval, rawIntervals } from "./rawIntervals"
 
 export interface IRawChords {
     Minor: IRawChord,

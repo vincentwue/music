@@ -12,16 +12,11 @@ export interface IRawScales {
     BBKingBlues: IRawScale,
 }
 
-
-
-
 export interface IRawScale {
     id: string,
     steps: number[],
     modes?: string[]
 }
-
-
 
 export const RawScales: IRawScales = {
     Major: {
@@ -57,7 +52,7 @@ export const RawScales: IRawScales = {
             "melodic minor mode",
             "dorisch b9",
             "lydisch augmented",
-            "lydisch dominant",
+            "lydisch dominant / mixo #11",
             "mixolydisch b13",
             "aeolisch b5 (lokrisch #2)",
             "alterierte skala (super lokrisch)",
