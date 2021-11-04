@@ -39,11 +39,6 @@ export class Tune {
         this.partOrder = [
             PartIndex.A,
             PartIndex.B,
-            PartIndex.A,
-            PartIndex.A,
-            PartIndex.B,
-            PartIndex.B,
-            PartIndex.C,
             PartIndex.C,
         ]
     }

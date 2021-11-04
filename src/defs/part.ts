@@ -54,6 +54,8 @@ export const standardPartConfig: IPartConfig = {
 // Was ist wenn eine zwei fünf eins über drei bars geht? oder sogar mehr?
 
 
+// Keine doppelten keys!
+
 export class Part {
 
     scale: SpecificScale
