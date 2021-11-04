@@ -24,6 +24,15 @@ export class SpecificChord {
         this.context = context
     }
 
+    get step() {
+        if (!this.context) {
+            return null
+        }
+        else  {
+            return this.context.notes.indexOf(this.rootNote)
+        }
+    }
+
     get render() {
         return this.rootNote.render(this.context?.scaleType) + this.chord.standardSymbol
     }

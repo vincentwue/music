@@ -20,7 +20,7 @@ export default function ShowRandomTune() {
                         <div className={classes.context}>
                         
                             {chord?.context?.rootNote.render(chord.context.scaleType)}
-                        
+                            --{chord?.step}
                         </div>
 
                         <div className={classes.symbol}>
