@@ -10,7 +10,6 @@ import { IPartConfig, Part, standardPartConfig } from "./part";
 // bpm
 // part repetition / order
 
-
 export enum PartIndex {
     A,
     B,

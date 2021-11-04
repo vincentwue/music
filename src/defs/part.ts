@@ -20,13 +20,15 @@ import { SpecificScale } from "./specificScales"
 
 export interface IPartConfig {
     JazzyProgressionness: ConfigValue
-    Rhytm_Crzyness: ConfigValue
-    Chord_Complexity: ConfigValue
+    RhythmCrzyness: ConfigValue
+    ChordComplexity: ConfigValue
     MaxChordsPerBar: number
     MinChordsPerBar: number
     KeyChange: boolean
     CircleOfFifthMaxCloseness: number
     HowManyBars: number
+    UseAlwaysMajorThirdOnStep3:ConfigValue
+    DoNotUseSteps:number[]
 }
 
 export enum ConfigValue {
@@ -41,20 +43,24 @@ export enum ConfigValue {
 
 export const standardPartConfig: IPartConfig = {
     JazzyProgressionness: ConfigValue.WellDone,
-    Rhytm_Crzyness: ConfigValue.Rare,
-    Chord_Complexity: ConfigValue.Medium,
+    RhythmCrzyness: ConfigValue.Rare,
+    ChordComplexity: ConfigValue.Medium,
     MaxChordsPerBar: 2,
     MinChordsPerBar:1,
     KeyChange: true,
     CircleOfFifthMaxCloseness: 2,
     HowManyBars: 4,
+    UseAlwaysMajorThirdOnStep3:ConfigValue.None,
+    DoNotUseSteps:[],
 }
 
-
+// einige settings auf tune ebene heben?
 // Was ist wenn eine zwei fünf eins über drei bars geht? oder sogar mehr?
 
 
 // Keine doppelten keys!
+
+// Gb oder F# auf 50/50 chance stellen
 
 export class Part {
 
