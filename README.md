@@ -1,3 +1,11 @@
+# Music app
+
+Finally build a nice structure of all useful scales and chords.
+
+Any music UI can now be build on top
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
