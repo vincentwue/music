@@ -4,12 +4,36 @@
     flex-wrap: wrap;
     max-width: 500px;
 }
+
+.part {
+    margin:10px;
+    background-color: lightgray;
+
+}
+
+.partKey{
+    text-align: left;
+}
+
+.bars {
+    display: flex;
+    
+}
+
 .bar {
     width:100px;
     height: 50px;
-    background-color: lightgray;
+    background-color: lightpink;
     margin: 10px;
     display: flex;
+}
+
+.chords {
+    display: flex;
+}
+
+.chord .step {
+    font-weight: 10px;
 }
 
 .chord {

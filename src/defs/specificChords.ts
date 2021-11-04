@@ -1,10 +1,10 @@
 import { Chord, chords } from "./chords";
 import { Note, notes } from "./notes";
-import { SpecificScale, SpecificScales } from "./specificScales";
+import { SpecificScale} from "./specificScales";
 
 export class SpecificChord {
 
-    id:string
+    id: string
     name
     chord
     rootNote
@@ -28,8 +28,8 @@ export class SpecificChord {
         if (!this.context) {
             return null
         }
-        else  {
-            return this.context.notes.indexOf(this.rootNote)
+        else {
+            return this.context.notes.indexOf(this.rootNote) + 1
         }
     }
 
@@ -43,7 +43,7 @@ export class SpecificChord {
         return chord.intervals.map(interval => calcNotes[interval.steps])
     }
 
-    public withContext(context:SpecificScale) {
+    public withContext(context: SpecificScale) {
         return new SpecificChord(this.rootNote, this.chord, context)
     }
 
@@ -51,7 +51,7 @@ export class SpecificChord {
 
 }
 
-export const specificChords: SpecificChord[] = generateSpecificChords()
+// export const specificChords: SpecificChord[] = generateSpecificChords()
 
 function generateSpecificChords() {
     const result = []

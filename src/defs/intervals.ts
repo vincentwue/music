@@ -1,7 +1,3 @@
-import { idText } from "typescript"
-import { Note, notes } from "./notes"
-import { IntervalDirection, SpecificInterval } from "./specificIntervals"
-
 
 export class Interval {
     id

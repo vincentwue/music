@@ -1,26 +1,13 @@
-import { chords } from "./chords";
-import { intervals } from "./intervals";
-import { Notes, notes } from "./notes";
-import { Scales, scales } from "./scales";
-import { specificChords } from "./specificChords";
-import { SpecificScale, specificScales } from "./specificScales";
-import { Tune } from "./tune";
+
+import { notes } from "./notes"
+import { TuneRunner } from "./tune"
 
 
-const exp =  {
+
+
+const exx  =  {
     notes,
-    intervals,
-    chords,
-    scales,
-    specificChords,
-    specificScales,
+    tuneRunner:new TuneRunner()
 }
 
-
-console.log(exp);
-console.log(new SpecificScale(Notes.C, Scales.Major).RandomProgression);
-(window as any).music = exp
-
-export default exp
-
-console.log(new Tune())
+console.log(exx)

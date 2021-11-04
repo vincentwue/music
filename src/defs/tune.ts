@@ -1,5 +1,6 @@
-import { SpecificChord } from "./specificChords";
-import { SpecificScale } from "./specificScales";
+
+import { IPartConfig, Part, standardPartConfig } from "./part";
+
 
 // global settings:
 
@@ -7,45 +8,64 @@ import { SpecificScale } from "./specificScales";
 // how many key changes
 // start key
 // bpm
+// part repetition / order
 
 
-// a part:
-
-// jazinezz
-// rhythm crazinezz
-// tetrads/triads/crazy chords
-// bars
-// max chords per bar
-// 
+export enum PartIndex {
+    A,
+    B,
+    C,
+    D,
+    E,
+    F,
+}
 
 
 export class Tune {
 
+    parts: Part[] = []
+    partOrder:PartIndex[]
 
-    progression: (SpecificChord | null)[][]
-
-    constructor() {
-
-        const scale1 = new SpecificScale()
-        const progression1 = scale1.RandomProgression
-
-        const scale2 = scale1.NearScaleJump
-        const progression2 = scale2.RandomProgression
-
-        const scale3 = scale2.NearScaleJump
-        const progression3 = scale3.RandomProgression
-
-        this.progression = [
-            ...progression1,
-            ...progression2,
-            ...progression2,
-            ...progression1,
-            ...progression1,
-            ...progression2,
-            ...progression3,
-        ]
-
+    get partsInOrder() : Part[] {
+        return this.partOrder.map(i => {
+            return this.parts[i]
+        })
     }
 
+    constructor() {
+        this.addPart()
+        this.addPart()
+        this.addPart()
+        this.partOrder = [
+            PartIndex.A,
+            PartIndex.B,
+            PartIndex.A,
+            PartIndex.A,
+            PartIndex.B,
+            PartIndex.B,
+            PartIndex.C,
+            PartIndex.C,
+        ]
+    }
+
+    addPart(config: IPartConfig = standardPartConfig) {
+        this.parts = [...this.parts, new Part(this.parts[this.parts.length-1], config)]
+    }
+
+    removePart(part: Part) {
+        this.parts = this.parts.filter(p => part !== p)
+    }
+
+
+}
+
+export class TuneRunner {
+
+    tune
+
+    constructor() {
+        this.tune = new Tune()
+        console.log("new tuneRunner", this.tune)
+    }
 
 }

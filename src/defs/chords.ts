@@ -207,4 +207,4 @@ export class Chords {
 
 }
 
-export const chords = Object.values(Chords)
+export const chords : Chord[] = Object.values(Chords)

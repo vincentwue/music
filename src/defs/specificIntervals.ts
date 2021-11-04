@@ -1,4 +1,4 @@
-import { dir } from "console";
+
 import { Interval, intervals, Intervals } from "./intervals";
 import { Note, notes } from "./notes";
 
@@ -23,7 +23,7 @@ export class SpecificInterval {
 
     }
 
-    public static intervalBetweenNotes(root: Note, target: Note, direction: IntervalDirection) {
+    public static intervalBetweenNotes(root: Note, target: Note, direction: IntervalDirection=IntervalDirection.Up) {
         const rootIndex = notes.indexOf(root)
         const targetIndex = notes.indexOf(target)
 
