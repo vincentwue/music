@@ -1,68 +1,108 @@
-import { withLatestFrom } from "../../node_modules/rxjs/dist/types";
-import { randomIntFromInterval, withProbability } from "./helper";
-import { ConfigValue, IPartConfig, Part } from "./part";
+
+import { randomIntFromInterval } from "./helper";
+import { IPartConfig, Part } from "./part";
+import { ChordProgression } from "./progressions";
 import { SpecificChord } from "./specificChords";
 
 
-export class Bar {
+export class BarsCreator {
 
-    chordsCount
-    part
-    lastPart
-    config
-    chords: SpecificChord[]
+    public static mapChordsToBars(chordProgression: ChordProgression, config: IPartConfig) {
 
+        const bars: Bar[] = []
 
-    constructor(lastPart: Part | null, part: Part, config: IPartConfig/* , useChords:SpecificChord[]=[] */) {
-
-        // useChords = lastPart ? [...lastPart.remainingUsedChords ,...useChords]
-
-        this.chordsCount = randomIntFromInterval(config.MinChordsPerBar, config.MaxChordsPerBar)
-
-        this.lastPart = lastPart
-        this.part = part
-        this.config = config
-
-        this.chords = []
+        const barsCount = config.HowManyBars
 
 
+        //TODO implement
 
-        while (this.chords.length < this.chordsCount) {
+        const chordGroups: SpecificChord[][] = []
 
-/*             while(useChords.length) {
-                if (withProbability())
-                if (useChords.length > 0 && this.chords.length < this.chordsCount) {
-                    console.error("The useChords where more than allowed!")
-                }
-            }
-
- */
-            // 251
-            if (withProbability(config.JazzyProgressionness, this.chordsCount >= 3)) {
-                // major or minor?
-                const major = randomIntFromInterval(0,1)
-                if (major) {
-                    this.chords.push(part.scale.getStepTetrad(2))
-                    this.chords.push(part.scale.getStepTetrad(5))
-                    this.chords.push(part.scale.getStepTetrad(1))
-                } else {
-                    this.chords.push(part.scale.getStepTetrad(7))
-                    this.chords.push(part.scale.getStepTetrad(3))
-                    this.chords.push(part.scale.getStepTetrad(6))
-                }
-
-            }
-
-            // random chords
-            if (withProbability(ConfigValue.Medium)) {
-                this.chords.push(part.scale.RandomTetrad)
-            }
-
+        for (let i = 0; i < barsCount - 1; i++) {
+            chordGroups.push([])
         }
+
+        const chords = chordProgression.chords.slice()
+
+        let currentGroupIndex = 0
+        while (chords.length) {
+            const currentGroup = chordGroups[currentGroupIndex]
+
+            const nextChord = chords.shift()
+            //TODO implement
+
+            if (!nextChord) break;
+
+            if (
+
+            ) {
+                currentGroup.push(nextChord)
+            }
+
+            
+        }
+
+        // let delimiterIndexes: number[] = []
+
+        // let last;
+        // for (let i = 0; i < barsCount - 1; i++) {
+        //     delimiterIndexes.push(randomIntFromInterval(0, chordProgression.chordsCount))
+        // }
+
+        // delimiterIndexes = delimiterIndexes.sort((a, b) => a < b ? -1 : 1)
+        // delimiterIndexes.push(chordProgression.chordsCount)
+        // console.log("delimiters", delimiterIndexes)
+
+        // let lastDelimiter = 0;
+        // for (let i = 0; i < delimiterIndexes.length; i++) {
+        //     const delimeter = delimiterIndexes[i]
+        //     const slicedChords = chordProgression.chords.slice(lastDelimiter, delimeter)
+        //     lastDelimiter = delimeter
+
+
+        //     const filledChords = BarsCreator.fillChordsWithNull(slicedChords, config.MaxChordsPerBar)
+
+        //     bars.push(new Bar(filledChords, config))
+        // }
+
+        console.log("BARS", bars)
+
+        return bars
+    }
+
+    private static fillChordsWithNull(chords: SpecificChord[], chordsPerBar: number) {
+
+        let res: (SpecificChord | null)[] = chords.slice()
+
+        while (res.length < chordsPerBar) {
+            const randomIndex = randomIntFromInterval(0, res.length)
+            res = [
+                ...res.slice(0, randomIndex),
+                null,
+                ...res.slice(randomIndex, res.length),
+            ]
+        }
+
+        return res
 
     }
 
+}
+
+export type BarChords = (SpecificChord | null)[]
+
+export class Bar {
+
+    chords: BarChords
 
 
+    constructor(chords: BarChords, config: IPartConfig) {
+
+
+
+        this.chords = chords
+
+    }
 
 }
+

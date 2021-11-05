@@ -1,4 +1,4 @@
-import { parseJsonText } from "typescript"
+
 import { TuneRunner } from "../../defs/tune"
 import classes from "./ShowRandomTune.module.css"
 
@@ -36,13 +36,13 @@ export default function ShowRandomTune() {
 
                                         <div className={classes.step}>
 
-                                            {chord.step}
+                                           {/* {chord?.name} */}
 
                                         </div>
 
                                         <div className={classes.chordName}>
 
-                                            {chord.render}
+                                            {/* {chord?.name} */}
 
 
                                         </div>
