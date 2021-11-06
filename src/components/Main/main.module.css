@@ -1,0 +1,14 @@
+
+.container {
+    display: flex;
+}
+
+.parts {
+    display: flex;
+    flex-direction: column;
+}
+
+.tune {
+    display: flex;
+
+}

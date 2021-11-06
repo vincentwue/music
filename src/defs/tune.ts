@@ -1,4 +1,7 @@
 
+import { Subject } from "rxjs";
+import { ISubscribable } from "../components/useRerenderOnSubscribableChange";
+import { BarChords } from "./bar";
 import { Part  } from "./part";
 
 
@@ -20,7 +23,9 @@ export enum PartIndex {
 }
 
 
-export class Tune {
+export class Tune implements  ISubscribable {
+
+    onChange = new Subject<any>()
 
     parts: Part[] = []
     partOrder:PartIndex[]
@@ -37,18 +42,25 @@ export class Tune {
         this.addPart()
         this.partOrder = [
             PartIndex.A,
+            PartIndex.A,
             PartIndex.B,
             PartIndex.C,
         ]
     }
 
     addPart() {
-        this.parts = [...this.parts, new Part(this.parts[this.parts.length-1])]
+        const newPart =  new Part(this.parts[this.parts.length-1], this.parts.length)
+        this.parts = [...this.parts, newPart]
+
+        // Propagate part change further to tune change
+        newPart.onChange.subscribe(this.onChange)
     }
 
     removePart(part: Part) {
         this.parts = this.parts.filter(p => part !== p)
     }
+
+
 
 
 }

@@ -10,11 +10,12 @@ export class ChordProgression {
     chords
     chordsCount
     counter_251
-
-    constructor(chords:SpecificChord[], counter_251:number) {
+    twoFiveOnes
+    constructor(chords: SpecificChord[], counter_251: number, twoFiveOnes: SpecificChord[][]) {
         this.chords = chords
         this.chordsCount = chords.length
         this.counter_251 = counter_251
+        this.twoFiveOnes = twoFiveOnes
     }
 
 }
@@ -29,6 +30,8 @@ export class ChordProgressionCreator {
     public static createChordProgression(scale: SpecificScale, config: IRandomConfig) {
 
         const chords = []
+        const twoFiveOnes = []
+
 
         const barsCount = config.HowManyBars.value
         const maxChordsPerBar = config.MaxChordsPerBar.value
@@ -44,19 +47,29 @@ export class ChordProgressionCreator {
             if (withProbability(config.JazzyProgressionness.value, chordsCount >= 3)) {
                 // major or minor?
                 const major = randomIntFromInterval(0, 1)
+                let twoFiveOne = []
                 if (major) {
-                    chords.push(scale.getStepTetrad(2))
-                    chords.push(scale.getStepTetrad(5))
-                    chords.push(scale.getStepTetrad(1))
+                    twoFiveOne = [
+                        scale.getStepTetrad(2),
+                        scale.getStepTetrad(5),
+                        scale.getStepTetrad(1)
+                    ]
                     last = scale.getStepTetrad(1)
                 } else {
-                    chords.push(scale.getStepTetrad(7))
-                    chords.push(scale.getStepTetrad(3))
-                    chords.push(scale.getStepTetrad(6))
+                    twoFiveOne = [
+                        scale.getStepTetrad(7),
+                        scale.getStepTetrad(3),
+                        scale.getStepTetrad(6)
+                    ]
                     last = scale.getStepTetrad(6)
                 }
+                chords.push(twoFiveOne[0])
+                chords.push(twoFiveOne[1])
+                chords.push(twoFiveOne[2])
+
                 console.log("added 2 5 1 !")
                 counter_251 = counter_251 + 1
+                twoFiveOnes.push(twoFiveOne)
 
             }
 
@@ -64,7 +77,7 @@ export class ChordProgressionCreator {
             let newChord = scale.getRandomTetrad(last)
 
             // UseAlwaysMajorThirdOnStep3
-            if (newChord.step === 3 && config.UseAlwaysMajorThirdOnStep3) {
+            if (newChord.step === 3 && config.UseAlwaysMajorThirdOnStep3.value) {
                 newChord = new SpecificChord(newChord.rootNote, Chords.Chord7)
             }
 
@@ -77,7 +90,7 @@ export class ChordProgressionCreator {
 
         console.log("Random chord progression created", chords)
 
-        return new ChordProgression(chords,  counter_251)
+        return new ChordProgression(chords, counter_251, twoFiveOnes)
     }
 
 

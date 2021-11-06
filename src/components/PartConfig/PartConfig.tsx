@@ -1,6 +1,8 @@
 
 
-import { SettingType } from "../../defs/configs/settings"
+import { SettingName } from "../../defs/configs/configs"
+import { ConfigValue, ConfigValueSetting, NumberSetting, Setting, SettingType } from "../../defs/configs/settings"
+import { createNumberArray, kebabize } from "../../defs/helper"
 import { Part } from "../../defs/part"
 import { useRerenderOnSubscribableChange } from "../useRerenderOnSubscribableChange"
 import classes from "./PartConfig.module.css"
@@ -12,21 +14,25 @@ interface IPartConfigProps {
 export default function PartConfig(props: IPartConfigProps) {
 
     const part = props.part
+    const config = part.subscribableConfig.config
 
     // Rerender on config change
     useRerenderOnSubscribableChange(part.subscribableConfig)
 
     return <div className={classes.container}>
 
-        {part.subscribableConfig.config.entries.map(entry => {
+        {config.entries.map(entry => {
 
             const [name, setting] = entry
+
+            if (part.index === 0 && setting.name === SettingName.CircleOfFifthMaxCloseness) return null
+            if (part.index === 0 && setting.name === SettingName.KeyChange) return null
 
             return <div className={classes.setting}>
 
                 <div className={classes.name}>
 
-                    {name}
+                    {kebabize(name).replaceAll("-", " ")}
 
                 </div>
 
@@ -39,7 +45,6 @@ export default function PartConfig(props: IPartConfigProps) {
                             type="checkbox"
                             checked={setting.value as boolean}
                             onChange={e => {
-                                console.log("change",e.target.checked, setting)
                                 setting.value = e.target.checked
                             }}
 
@@ -47,6 +52,34 @@ export default function PartConfig(props: IPartConfigProps) {
 
                     }
 
+                    {setting.type === SettingType.ConfigValueSetting
+                        &&
+
+                        <select onChange={e => setting.value = e.target.value as ConfigValue} value={setting.value as string}>
+                            {Object.values(ConfigValue).map(value => {
+                                return <option key={value}>{value}</option>
+                            })}
+                        </select>
+
+                    }
+
+                    {setting.type === SettingType.NumberSetting
+                        &&
+
+                        <select onChange={e => setting.value = parseFloat(e.target.value)} value={setting.value.toString()}>
+                            {createNumberArray((setting as unknown as NumberSetting).min, (setting as unknown as NumberSetting).max).map(value => {
+                                return <option key={value.toString()}>{value}</option>
+                            })}
+                        </select>
+
+                    }
+
+                </div>
+
+                <div className={classes.info}>
+                
+                    {setting.name === SettingName.JazzyProgressionness && part.chordProgression.counter_251}
+                
                 </div>
 
             </div>

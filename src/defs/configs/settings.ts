@@ -1,4 +1,5 @@
 import { Subject } from "rxjs";
+import { SettingName } from "./configs";
 
 
 export enum ConfigValue {
@@ -23,6 +24,7 @@ export interface ISetting {
     userInput: UserInput
     onSettingChanged: Subject<any>
     type: SettingType
+    name:SettingName
 }
 
 export enum SettingType {
@@ -37,10 +39,12 @@ export abstract class Setting<T> {
     type:SettingType
     onSettingChanged: Subject<T> = new Subject<T>()
     _value: T;
+    name:SettingName
 
-    constructor(value: T, type:SettingType) {
+    constructor(value: T, type:SettingType, name:SettingName) {
         this._value = value
         this.type = type
+        this.name = name
     }
 
     set value(value: T) {
@@ -63,8 +67,8 @@ export class NumberSetting extends Setting<number> {
     min
     max
 
-    constructor(value: number, min: number, max: number) {
-        super(value, SettingType.NumberSetting)
+    constructor(value: number, min: number, max: number, name:SettingName) {
+        super(value, SettingType.NumberSetting, name)
 
         this.value = value
         this.min = min
@@ -78,8 +82,8 @@ export class NumberSetting extends Setting<number> {
 export class ConfigValueSetting extends Setting<ConfigValue> {
 
 
-    constructor(value: ConfigValue) {
-        super(value, SettingType.ConfigValueSetting)
+    constructor(value: ConfigValue, name:SettingName) {
+        super(value, SettingType.ConfigValueSetting, name)
 
     }
 
@@ -88,8 +92,8 @@ export class ConfigValueSetting extends Setting<ConfigValue> {
 export class BooleanSetting extends Setting<boolean> {
 
 
-    constructor(value: boolean) {
-        super(value, SettingType.BooleanSetting)
+    constructor(value: boolean, name:SettingName) {
+        super(value, SettingType.BooleanSetting, name)
 
     }
 
@@ -98,8 +102,8 @@ export class BooleanSetting extends Setting<boolean> {
 export class NumberArraySetting extends Setting<number[]> {
 
 
-    constructor(value: number[]) {
-        super(value, SettingType.NumberArraySetting)
+    constructor(value: number[], name:SettingName) {
+        super(value, SettingType.NumberArraySetting, name)
 
     }
 

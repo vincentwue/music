@@ -1,0 +1,27 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.part {
+    display: flex;
+}
+
+.part:nth-child(odd) {
+    background-color: rgb(255, 209, 214);
+}
+
+.bar {
+    display: flex;
+
+}
+
+.chords {
+    display: flex;
+}
+
+.chord {
+    padding-left:5px;
+    padding-right:5px;
+}

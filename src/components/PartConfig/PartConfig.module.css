@@ -1,47 +1,22 @@
-
 .container {
     display: flex;
-    flex-wrap: wrap;
-    max-width: 500px;
+    flex-direction: column;
+    border: 1px solid rgb(138, 66, 255);
+    border-radius: 5px;
 }
 
-.part {
-    margin:10px;
-    background-color: lightgray;
 
+.setting:nth-child(odd) {
+    background-color: rgba(55, 0, 255, 0.11);
 }
 
-.partKey{
-    text-align: left;
-}
-
-.bars {
+.setting {
     display: flex;
-    
+    padding: 5px;
 }
 
-.bar {
-    width:100px;
-    height: 50px;
-    background-color: lightpink;
-    margin: 10px;
+.setting .name {
+    width:250px;
     display: flex;
 }
 
-.chords {
-    display: flex;
-}
-
-.chord .step {
-    font-weight: 10px;
-}
-
-.chord {
-    height: 20px;
-    width: 50px;
-}
-
-.context {
-    font-size: 10px;
-
-}

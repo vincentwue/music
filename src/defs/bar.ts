@@ -23,6 +23,10 @@ export class BarsCreator {
             }
         }
 
+        if (bars.some(bar => bar.length > config.MaxChordsPerBar.value)) {
+            return false
+        }
+
         return true
     }
 

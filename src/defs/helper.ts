@@ -47,3 +47,28 @@ export function getScaleFromNote(n:Note, notes:Note[]) {
     const calcNotes = [...notes.slice(noteIndex), ...notes.slice(0, noteIndex)]
     return calcNotes
 }
+
+
+export function kebabize(str:string) {
+    return str.split('').map((letter, idx) => {
+      return letter.toUpperCase() === letter
+       ? `${idx !== 0 ? '-' : ''}${letter.toLowerCase()}`
+       : letter;
+    }).join('');
+ }
+
+export function createNumberArray(start:number, finish?:number) {
+
+    if (!finish) {
+        finish = start
+        start = 0
+    }
+
+    const res = []
+    for (let i = start;i<finish;i++) {
+        res.push(i)
+    }   
+
+    return res
+
+}

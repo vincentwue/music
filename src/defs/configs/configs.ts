@@ -40,7 +40,7 @@ export interface IRandomConfig {
     // implemented
     JazzyProgressionness: ConfigValueSetting
     CircleOfFifthMaxCloseness: NumberSetting
-    UseAlwaysMajorThirdOnStep3: ConfigValueSetting
+    UseAlwaysMajorThirdOnStep3: BooleanSetting
 
     // not implemented
     ChordComplexity: ConfigValueSetting
@@ -67,33 +67,53 @@ export interface IRandomConfig {
 
 type SettingEntry = [string, ISetting]
 
+export enum SettingName {
+    JazzyProgressionness = "JazzyProgressionness",
+    CircleOfFifthMaxCloseness ="CircleOfFifthMaxCloseness",
+    UseAlwaysMajorThirdOnStep3="UseAlwaysMajorThirdOnStep3",
+
+    ChordComplexity="",
+    KeyChange="KeyChange",
+    DoNotUseSteps="DoNotUseSteps",
+    EndWith6Or1="EndWith6Or1",
+
+    MaxChordsPerBar="MaxChordsPerBar",
+    MinChordsPerBar="MinChordsPerBar",
+    HowManyBars="HowManyBars",
+    AlwaysHaveChordOnFirstQuarter="AlwaysHaveChordOnFirstQuarter",
+
+    RhythmCrzyness="RhythmCrzyness",
+    EmptyBars="EmptyBars",
+    
+}
+
 export class RandomConfig implements IRandomConfig {
 
         // configs that refer to the chordProgression
 
     // implemented
-    JazzyProgressionness= new ConfigValueSetting(ConfigValue.Medium)
-    CircleOfFifthMaxCloseness= new NumberSetting(3, 1, 6)
-    UseAlwaysMajorThirdOnStep3= new ConfigValueSetting(ConfigValue.Insane)
+    JazzyProgressionness= new ConfigValueSetting( ConfigValue.Medium, SettingName.JazzyProgressionness)
+    CircleOfFifthMaxCloseness= new NumberSetting(3, 1, 6,SettingName.CircleOfFifthMaxCloseness)
+    UseAlwaysMajorThirdOnStep3= new BooleanSetting(true, SettingName.JazzyProgressionness)
 
     // not implemented
-    ChordComplexity= new ConfigValueSetting(ConfigValue.Medium)
-    KeyChange= new BooleanSetting(true)
-    DoNotUseSteps= new NumberArraySetting([])
-    EndWith6Or1= new BooleanSetting(true)
+    ChordComplexity= new ConfigValueSetting(ConfigValue.Medium, SettingName.ChordComplexity)
+    KeyChange= new BooleanSetting(true, SettingName.KeyChange)
+    DoNotUseSteps= new NumberArraySetting([], SettingName.DoNotUseSteps)
+    EndWith6Or1= new BooleanSetting(true, SettingName.EndWith6Or1)
 
 
     // configs that refer to the distribution into bars
 
     // implemented
-    MaxChordsPerBar= new NumberSetting(2, 1, 8)
-    MinChordsPerBar= new NumberSetting(1, 0, 4)
-    HowManyBars= new NumberSetting(4, 1, 20)
-    AlwaysHaveChordOnFirstQuarter= new BooleanSetting(true)
+    MaxChordsPerBar= new NumberSetting(2, 1, 8,  SettingName.MaxChordsPerBar)
+    MinChordsPerBar= new NumberSetting(1, 0, 4, SettingName.MinChordsPerBar)
+    HowManyBars= new NumberSetting(4, 1, 20, SettingName.HowManyBars)
+    AlwaysHaveChordOnFirstQuarter= new BooleanSetting(true, SettingName.AlwaysHaveChordOnFirstQuarter)
 
     //not implemented
-    RhythmCrzyness= new ConfigValueSetting(ConfigValue.Medium)
-    EmptyBars= new ConfigValueSetting(ConfigValue.None)
+    RhythmCrzyness= new ConfigValueSetting(ConfigValue.Medium, SettingName.RhythmCrzyness)
+    EmptyBars= new ConfigValueSetting(ConfigValue.None, SettingName.EmptyBars)
 
     get entries() : SettingEntry[] {
         return Object.entries(this)
@@ -110,12 +130,13 @@ export class SubscribableRandomConfig implements ISubscribable {
 
     constructor() {
 
-        for (const [name, setting] of this.config.entries) {
+        for (const [, setting] of this.config.entries) {
             
             setting.onSettingChanged.subscribe(()=> {
-                console.log("config changed", this)
-                this.onChange.next(0)
+                console.log("config changed", setting)
+                this.onChange.next(null)
             })
+
         }
 
     }
