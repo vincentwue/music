@@ -3,9 +3,10 @@
 // a part:
 
 
-import { Bar } from "./bar"
+import { Bar, BarsCreator } from "./bar"
 
 import { Notes } from "./notes"
+import { ChordProgressionCreator } from "./progressions"
 import { Scales } from "./scales"
 
 import { SpecificScale } from "./specificScales"
@@ -27,8 +28,9 @@ export interface IPartConfig {
     KeyChange: boolean
     CircleOfFifthMaxCloseness: number
     HowManyBars: number
-    UseAlwaysMajorThirdOnStep3:ConfigValue
-    DoNotUseSteps:number[]
+    UseAlwaysMajorThirdOnStep3: ConfigValue
+    DoNotUseSteps: number[]
+    EmptyBars:ConfigValue
 }
 
 export enum ConfigValue {
@@ -45,13 +47,16 @@ export const standardPartConfig: IPartConfig = {
     JazzyProgressionness: ConfigValue.WellDone,
     RhythmCrzyness: ConfigValue.Rare,
     ChordComplexity: ConfigValue.Medium,
-    MaxChordsPerBar: 2,
-    MinChordsPerBar:1,
+    HowManyBars: 4,
+    MaxChordsPerBar: 4,
+    MinChordsPerBar: 1,
     KeyChange: true,
     CircleOfFifthMaxCloseness: 2,
-    HowManyBars: 4,
-    UseAlwaysMajorThirdOnStep3:ConfigValue.None,
-    DoNotUseSteps:[],
+    UseAlwaysMajorThirdOnStep3: ConfigValue.None,
+    DoNotUseSteps: [],
+    EmptyBars:ConfigValue.None
+
+
 }
 
 // end on 6 or 1
@@ -68,22 +73,29 @@ export class Part {
 
     scale: SpecificScale
     bars: Bar[]
+    chordProgression
 
-    constructor(lastPart: Part | null, config: IPartConfig=standardPartConfig) {
+    // We need the last part to get the new scale (circle of fifth closeness).
+    constructor(lastPart: Part | null, config: IPartConfig = standardPartConfig) {
 
+        // Determine the scale of the part.
+        // Currently only circle of fifth and regular major keys
         if (!lastPart) {
             this.scale = new SpecificScale(Notes.Random, Scales.Major)
         } else {
             this.scale = lastPart.scale.getCloseCircleOfFifthsScale(config.CircleOfFifthMaxCloseness)
         }
 
-        this.bars = []
-        for (let i = 0; i < config.HowManyBars; i++) {
-            this.bars.push(new Bar(lastPart, this, config))
-        }  
+        this.chordProgression = ChordProgressionCreator.createChordProgression(this.scale, config)
+        this.bars = BarsCreator.mapChordsToBars(this.chordProgression, config)
+
+        // for (let i = 0; i < config.HowManyBars; i++) {
+        //     this.bars.push(new Bar(lastPart, this, config))
+        // }
 
 
     }
 
 
 }
+

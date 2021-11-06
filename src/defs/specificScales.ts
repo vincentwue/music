@@ -129,6 +129,11 @@ export class SpecificScale {
         return randomFromArray(this.tetrads)
     }
 
+    getRandomTetrad(not?:SpecificChord) : SpecificChord {
+        return randomFromArray(this.tetrads, [not])
+
+    }
+
     get FifthJump() {
         const newRoot = SpecificInterval.calculateInterval(this.rootNote, Intervals.PerfectFifth)
         return new SpecificScale(newRoot, this.scale)
