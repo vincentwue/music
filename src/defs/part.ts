@@ -54,6 +54,8 @@ export const standardPartConfig: IPartConfig = {
     DoNotUseSteps:[],
 }
 
+// end on 6 or 1
+
 // einige settings auf tune ebene heben?
 // Was ist wenn eine zwei fünf eins über drei bars geht? oder sogar mehr?
 
