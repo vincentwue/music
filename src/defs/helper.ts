@@ -1,5 +1,5 @@
+import { ConfigValue } from "./configs/settings";
 import { Note } from "./notes";
-import { ConfigValue } from "./part";
 
 /**
  * random int -> min and max included 

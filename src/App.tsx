@@ -1,14 +1,13 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import ShowRandomTune from './components/ShowRandomTune/ShowRandomTune';
+import Main from './components/Main/Main';
 
 function App() {
 
 
   return (
     <div className="App">
-        <ShowRandomTune></ShowRandomTune>
+        <Main></Main>
     </div>
   );
 }

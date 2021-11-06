@@ -1,76 +1,86 @@
 
+import { config } from "rxjs";
 import { randomIntFromInterval } from "./helper";
-import { IPartConfig, Part } from "./part";
+import { IRandomConfig } from "./configs/configs"
+
 import { ChordProgression } from "./progressions";
 import { SpecificChord } from "./specificChords";
 
 
 export class BarsCreator {
 
-    public static mapChordsToBars(chordProgression: ChordProgression, config: IPartConfig) {
+    // Config is evaluated here.
+    // These conditions need to get met to accept
+    // how the program divided the chords into bars. 
 
-        const bars: Bar[] = []
+    
+    // IMPLEMENT CONFIG CONSEQUENCES HERE
+    private static doesBarChordsFullfillAllConditions(bars: BarChords[], config:IRandomConfig) {
 
-        const barsCount = config.HowManyBars
-
-
-        //TODO implement
-
-        const chordGroups: SpecificChord[][] = []
-
-        for (let i = 0; i < barsCount - 1; i++) {
-            chordGroups.push([])
-        }
-
-        const chords = chordProgression.chords.slice()
-
-        let currentGroupIndex = 0
-        while (chords.length) {
-            const currentGroup = chordGroups[currentGroupIndex]
-
-            const nextChord = chords.shift()
-            //TODO implement
-
-            if (!nextChord) break;
-
-            if (
-
-            ) {
-                currentGroup.push(nextChord)
+        if (config.AlwaysHaveChordOnFirstQuarter) {
+            if (!bars.every(bar => bar[0])) {
+                return false
             }
-
-            
         }
 
-        // let delimiterIndexes: number[] = []
-
-        // let last;
-        // for (let i = 0; i < barsCount - 1; i++) {
-        //     delimiterIndexes.push(randomIntFromInterval(0, chordProgression.chordsCount))
-        // }
-
-        // delimiterIndexes = delimiterIndexes.sort((a, b) => a < b ? -1 : 1)
-        // delimiterIndexes.push(chordProgression.chordsCount)
-        // console.log("delimiters", delimiterIndexes)
-
-        // let lastDelimiter = 0;
-        // for (let i = 0; i < delimiterIndexes.length; i++) {
-        //     const delimeter = delimiterIndexes[i]
-        //     const slicedChords = chordProgression.chords.slice(lastDelimiter, delimeter)
-        //     lastDelimiter = delimeter
-
-
-        //     const filledChords = BarsCreator.fillChordsWithNull(slicedChords, config.MaxChordsPerBar)
-
-        //     bars.push(new Bar(filledChords, config))
-        // }
-
-        console.log("BARS", bars)
-
-        return bars
+        return true
     }
 
-    private static fillChordsWithNull(chords: SpecificChord[], chordsPerBar: number) {
+    public static mapChordsToBars(chordProgression: ChordProgression, config: IRandomConfig) {
+
+        for (let i = 0; i < 10000; i++) {
+
+            // Here we add the conditions that the tune should fulfill
+
+            const dividedChords = this.divideChordsToBars(chordProgression, config)
+            const barChords = dividedChords.map(bar => this.fillChordsWithNull(bar, config.MaxChordsPerBar.value))
+
+
+            const fulfilledAllConditions = this.doesBarChordsFullfillAllConditions(barChords, config)
+
+            if (fulfilledAllConditions) {
+
+                // Take this random run
+                
+                const result =  barChords.map(barChords => new Bar(barChords, config))
+                console.log("Found bar division after " + i + " iterations.", result)
+
+                return result
+
+            } else {
+
+                // Generate new and 
+                continue;
+
+            }
+
+
+        }
+
+        console.error("Could not find chords! 10000 iterations too less?", { chordProgression, config })
+
+        return []
+
+    }
+
+
+    private static divideChordsToBars(chordProgression: ChordProgression, config: IRandomConfig) {
+
+        let copiedChords = chordProgression.chords.slice()
+        const bars: SpecificChord[][] = []
+
+        for (let i = 0; i < config.HowManyBars.value; i++) {
+            const randomHowMany = randomIntFromInterval(config.MinChordsPerBar.value, config.MaxChordsPerBar.value)
+            const newBar = copiedChords.slice(0, randomHowMany)
+            bars.push(newBar)
+            copiedChords = copiedChords.slice(randomHowMany, copiedChords.length)
+        }
+
+        return bars
+
+    }
+
+    private static fillChordsWithNull(chords: SpecificChord[], chordsPerBar: number) : BarChords {
 
         let res: (SpecificChord | null)[] = chords.slice()
 
@@ -89,14 +99,15 @@ export class BarsCreator {
 
 }
 
-export type BarChords = (SpecificChord | null)[]
+export type BarChord = SpecificChord | null
+export type BarChords = BarChord[]
 
 export class Bar {
 
     chords: BarChords
 
 
-    constructor(chords: BarChords, config: IPartConfig) {
+    constructor(chords: BarChords, config: IRandomConfig) {
 
 
 

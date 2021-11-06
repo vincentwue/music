@@ -1,6 +1,7 @@
 import { Chords } from "./chords";
 import { randomIntFromInterval, withProbability } from "./helper";
-import { IPartConfig } from "./part";
+import { IRandomConfig } from "./configs/configs"
+
 import { SpecificChord } from "./specificChords";
 import { SpecificScale } from "./specificScales";
 
@@ -20,22 +21,27 @@ export class ChordProgression {
 
 export class ChordProgressionCreator {
 
-    public static createChordProgression(scale: SpecificScale, config: IPartConfig) {
+    // This function creates the chord progression that is later mapped to bars (BarsCreator)
+
+    // Config is evaluated here.
+
+    // IMPLEMENT CONFIG CONSEQUENCES HERE
+    public static createChordProgression(scale: SpecificScale, config: IRandomConfig) {
 
         const chords = []
 
-        const barsCount = config.HowManyBars
-        const maxChordsPerBar = config.MaxChordsPerBar
+        const barsCount = config.HowManyBars.value
+        const maxChordsPerBar = config.MaxChordsPerBar.value
         let counter_251 = 0
 
         // Minimum one 
-        const chordsCount = randomIntFromInterval(barsCount / 2, (maxChordsPerBar * barsCount))
+        const chordsCount = randomIntFromInterval(barsCount /* / 2 */, (maxChordsPerBar * barsCount))
 
         let last;
         while (chords.length < chordsCount) {
 
             // 251
-            if (withProbability(config.JazzyProgressionness, chordsCount >= 3)) {
+            if (withProbability(config.JazzyProgressionness.value, chordsCount >= 3)) {
                 // major or minor?
                 const major = randomIntFromInterval(0, 1)
                 if (major) {
@@ -58,7 +64,7 @@ export class ChordProgressionCreator {
             let newChord = scale.getRandomTetrad(last)
 
             // UseAlwaysMajorThirdOnStep3
-            if (newChord.step === 3) {
+            if (newChord.step === 3 && config.UseAlwaysMajorThirdOnStep3) {
                 newChord = new SpecificChord(newChord.rootNote, Chords.Chord7)
             }
 

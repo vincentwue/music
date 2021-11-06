@@ -3,7 +3,10 @@
 // a part:
 
 
+import { Subject } from "rxjs"
+import { ISubscribable } from "../components/useRerenderOnSubscribableChange"
 import { Bar, BarsCreator } from "./bar"
+import { IRandomConfig,  SubscribableRandomConfig } from "./configs/configs"
 
 import { Notes } from "./notes"
 import { ChordProgressionCreator } from "./progressions"
@@ -11,83 +14,61 @@ import { Scales } from "./scales"
 
 import { SpecificScale } from "./specificScales"
 
-// jazinezz
-// rhythm crazinezz
-// tetrads/triads/crazy chords
-// bars
-// max chords per bar
-// circle of fifth closeness
 
 
-export interface IPartConfig {
-    JazzyProgressionness: ConfigValue
-    RhythmCrzyness: ConfigValue
-    ChordComplexity: ConfigValue
-    MaxChordsPerBar: number
-    MinChordsPerBar: number
-    KeyChange: boolean
-    CircleOfFifthMaxCloseness: number
-    HowManyBars: number
-    UseAlwaysMajorThirdOnStep3: ConfigValue
-    DoNotUseSteps: number[]
-    EmptyBars:ConfigValue
-}
-
-export enum ConfigValue {
-    None = "none",
-    Rare = "rare",
-    Medium = "medium",
-    WellDone = "well done",
-    Insane = "insane"
-}
-
-
-
-export const standardPartConfig: IPartConfig = {
-    JazzyProgressionness: ConfigValue.WellDone,
-    RhythmCrzyness: ConfigValue.Rare,
-    ChordComplexity: ConfigValue.Medium,
-    HowManyBars: 4,
-    MaxChordsPerBar: 4,
-    MinChordsPerBar: 1,
-    KeyChange: true,
-    CircleOfFifthMaxCloseness: 2,
-    UseAlwaysMajorThirdOnStep3: ConfigValue.None,
-    DoNotUseSteps: [],
-    EmptyBars:ConfigValue.None
-
-
-}
-
-// end on 6 or 1
-
-// einige settings auf tune ebene heben?
-// Was ist wenn eine zwei fünf eins über drei bars geht? oder sogar mehr?
-
-
-// Keine doppelten keys!
-
-// Gb oder F# auf 50/50 chance stellen
-
-export class Part {
+export class Part implements ISubscribable {
 
     scale: SpecificScale
     bars: Bar[]
     chordProgression
+    onChange = new Subject()
+
+
+    subscribableConfig = new SubscribableRandomConfig()
 
     // We need the last part to get the new scale (circle of fifth closeness).
-    constructor(lastPart: Part | null, config: IPartConfig = standardPartConfig) {
+    constructor(lastPart: Part | null) {
+
+
+        // Here we say: When a config changes, redo the whole create tune procedure!
+        // The same rerender structure ist used for the userInputs And 
+        this.subscribableConfig.onChange.subscribe(() => {
+            init()
+            // The part can be subscribed by the rendering.
+            this.onChange.next(this)
+        })
+
+        const config = this.subscribableConfig.config
 
         // Determine the scale of the part.
         // Currently only circle of fifth and regular major keys
         if (!lastPart) {
             this.scale = new SpecificScale(Notes.Random, Scales.Major)
         } else {
-            this.scale = lastPart.scale.getCloseCircleOfFifthsScale(config.CircleOfFifthMaxCloseness)
+            this.scale = lastPart.scale.getCloseCircleOfFifthsScale(config.CircleOfFifthMaxCloseness.value)
         }
 
         this.chordProgression = ChordProgressionCreator.createChordProgression(this.scale, config)
         this.bars = BarsCreator.mapChordsToBars(this.chordProgression, config)
+
+
+        const init = () => {
+            const config = this.subscribableConfig.config
+
+            // Determine the scale of the part.
+            // Currently only circle of fifth and regular major keys
+            if (!lastPart) {
+                this.scale = new SpecificScale(Notes.Random, Scales.Major)
+            } else {
+                this.scale = lastPart.scale.getCloseCircleOfFifthsScale(config.CircleOfFifthMaxCloseness.value)
+            }
+
+            this.chordProgression = ChordProgressionCreator.createChordProgression(this.scale, config)
+            this.bars = BarsCreator.mapChordsToBars(this.chordProgression, config)
+
+        }
+        init()
+
 
         // for (let i = 0; i < config.HowManyBars; i++) {
         //     this.bars.push(new Bar(lastPart, this, config))

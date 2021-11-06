@@ -1,5 +1,5 @@
 
-import { IPartConfig, Part, standardPartConfig } from "./part";
+import { Part  } from "./part";
 
 
 // global settings:
@@ -42,24 +42,13 @@ export class Tune {
         ]
     }
 
-    addPart(config: IPartConfig = standardPartConfig) {
-        this.parts = [...this.parts, new Part(this.parts[this.parts.length-1], config)]
+    addPart() {
+        this.parts = [...this.parts, new Part(this.parts[this.parts.length-1])]
     }
 
     removePart(part: Part) {
         this.parts = this.parts.filter(p => part !== p)
     }
 
-
-}
-
-export class TuneRunner {
-
-    tune
-
-    constructor() {
-        this.tune = new Tune()
-        console.log("new tuneRunner", this.tune)
-    }
 
 }
