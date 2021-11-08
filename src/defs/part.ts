@@ -50,20 +50,10 @@ export class Part implements ISubscribable {
             })
         }
 
+        // initiate with random, we run init() anyways
         const config = this.subscribableConfig.config
-
-        // Determine the scale of the part.
-        // Currently only circle of fifth and regular major keys
-
-        if (lastPart && config.KeyChange.value === false) {
-            this.scale = lastPart.scale
-        } else if (!lastPart || config.KeyChange.value === false) {
-            this.scale = new SpecificScale(Notes.Random, Scales.Major)
-        } else {
-            this.scale = lastPart.scale.getCloseCircleOfFifthsScale(config.CircleOfFifthMaxCloseness.value)
-        }
-
-        this.chordProgression = ChordProgressionCreator.createChordProgression(this.scale, config)
+        this.scale = new SpecificScale(Notes.Random, Scales.Major)
+        this.chordProgression = ChordProgressionCreator.createChordProgression(this, config)
         this.bars = BarsCreator.mapChordsToBars(this.chordProgression, config)
 
         this.init()
@@ -90,8 +80,9 @@ export class Part implements ISubscribable {
             this.scale = lastPart.scale.getCloseCircleOfFifthsScale(config.CircleOfFifthMaxCloseness.value)
         }
 
-        this.chordProgression = ChordProgressionCreator.createChordProgression(this.scale, config)
+        this.chordProgression = ChordProgressionCreator.createChordProgression(this, config)
         this.bars = BarsCreator.mapChordsToBars(this.chordProgression, config)
+        this.onChange.next(0)
 
     }
 

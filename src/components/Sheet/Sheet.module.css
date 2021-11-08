@@ -1,0 +1,42 @@
+
+.container {
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: row;
+    align-content: flex-start;
+
+    width:700px;
+}
+
+.bar {
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+    display: flex;
+    padding: 5px;
+    width:140px;
+    height: 30px;
+    margin-bottom: 10px;
+
+    align-content: space-around;
+    
+}
+
+.chord {
+
+    width:60px;
+    position:relative;
+}
+
+.currentPosition {
+    display: flex;
+    position: absolute;
+    bottom:0px;
+    background-color:darkgreen;
+    height: 3px;
+    left:0px;
+    right:0px;
+    top:89%;
+}

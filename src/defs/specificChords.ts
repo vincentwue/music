@@ -25,16 +25,13 @@ export class SpecificChord {
     }
 
     get step() {
-        if (!this.context) {
-            return null
-        }
-        else {
-            return this.context.notes.indexOf(this.rootNote) + 1
-        }
+        if (!this.context) return ""
+        return this.context.notes.indexOf(this.rootNote)
     }
 
     get render() {
-        return this.rootNote.render(this.context?.scaleType) + this.chord.standardSymbol
+        if (!this.context) return this.rootNote.flat + this.chord.standardSymbol
+        return this.rootNote.render(this.context?.scaleType) + this.chord.standardSymbol 
     }
 
     private static calculateNotesForChord(rootNote: Note, chord: Chord) {

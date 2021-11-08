@@ -4,6 +4,7 @@ import { IRandomConfig } from "./configs/configs"
 
 import { SpecificChord } from "./specificChords";
 import { SpecificScale } from "./specificScales";
+import { Part } from "./part";
 
 export class ChordProgression {
 
@@ -27,7 +28,9 @@ export class ChordProgressionCreator {
     // Config is evaluated here.
 
     // IMPLEMENT CONFIG CONSEQUENCES HERE
-    public static createChordProgression(scale: SpecificScale, config: IRandomConfig) {
+    public static createChordProgression(part: Part, config: IRandomConfig) {
+
+        const scale = part.scale
 
         const chords = []
         const twoFiveOnes = []
@@ -87,6 +90,8 @@ export class ChordProgressionCreator {
 
 
         }
+
+        // chords.forEach(chord => chord.)
 
         console.log("Random chord progression created", chords)
 

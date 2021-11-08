@@ -1,6 +1,20 @@
 
 .container {
     display: flex;
+    flex-direction: column;
+}
+
+.headBar {
+    display: flex;
+    margin:10px;
+}
+
+.order {
+    margin-right: 5px;
+}
+
+.row {
+    display: flex;
 }
 
 .parts {

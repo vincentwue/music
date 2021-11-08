@@ -3,6 +3,7 @@
 import { SettingName } from "../../defs/configs/configs"
 import { ConfigValue, ConfigValueSetting, NumberSetting, Setting, SettingType } from "../../defs/configs/settings"
 import { createNumberArray, kebabize } from "../../defs/helper"
+import MainController from "../../defs/mainController"
 import { Part } from "../../defs/part"
 import { useRerenderOnSubscribableChange } from "../useRerenderOnSubscribableChange"
 import classes from "./PartConfig.module.css"
@@ -16,10 +17,15 @@ export default function PartConfig(props: IPartConfigProps) {
     const part = props.part
     const config = part.subscribableConfig.config
 
+    useRerenderOnSubscribableChange(part)
+
     // Rerender on config change
     useRerenderOnSubscribableChange(part.subscribableConfig)
 
+
     return <div className={classes.container}>
+
+        <button onClick={e => part.init()}>Rebuild</button>
 
         {config.entries.map(entry => {
 
@@ -86,6 +92,31 @@ export default function PartConfig(props: IPartConfigProps) {
 
         })}
 
+        <div className={classes.resultName}>
+        
+
+        { "Result: "+part.scale.name}
+
+        </div>
+
+        <div className={classes.result}>
+        
+            {part.bars.map(bar => {
+                return <div className={classes.bar}>
+                
+                    {bar.chords.map(chord => {
+                        return <div className={classes.chord}>
+                        
+                            {chord && chord.step + " - "}
+                            {chord && chord.render}
+                        
+                        </div>
+                    })}
+                
+                </div>
+            })}
+        
+        </div>
 
     </div>
 

@@ -3,6 +3,7 @@
     flex-direction: column;
     border: 1px solid rgb(138, 66, 255);
     border-radius: 5px;
+    width:360px
 }
 
 
@@ -20,3 +21,22 @@
     display: flex;
 }
 
+
+.result {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.bar {
+    display: flex;
+    border:2px solid black
+    /* border-left:1px solid grey;
+    border-right:1px solid grey; */
+    
+}
+
+.chord {
+    padding:5px;
+    border:1px solid grey;
+    width:40px
+}

@@ -1,17 +1,17 @@
 import { Subject } from "rxjs";
-import { randomIntFromInterval } from "./helper";
+import { ISubscribable } from "../components/useRerenderOnSubscribableChange";
 
 function getTimeInterval(bpm: number) {
     return (60 / bpm) * 1000;
 }
 
 
-export class BpmRunner {
+export class BpmRunner implements ISubscribable {
     private _renderCount = 0
     private _bpm: number = 60
     private _timeInterval: number = getTimeInterval(this._bpm)
     private _runningInterval: NodeJS.Timeout | undefined;
-    private _onNext = new Subject<number>()
+    onChange = new Subject<number>()
 
     private _beforeNext
 
@@ -22,6 +22,10 @@ export class BpmRunner {
         this._startInterval()
     }
 
+    public resetRenderCount() {
+        this._renderCount = 0
+    }
+
     public stop() {
         if (this._runningInterval) {
             clearInterval(this._runningInterval)
@@ -30,12 +34,38 @@ export class BpmRunner {
 
     private _rerender() {
         this._renderCount = this._renderCount + 1
-        this._onNext.next(this._renderCount)
+        this.onChange.next(this._renderCount)
     }
 
 
     public get bpm() {
         return this._bpm
+    }
+
+    public getPosition(barsCount: number, chordsPerBar: number) {
+        const allPositions = barsCount * chordsPerBar
+        const position = this._renderCount % allPositions
+
+
+        let counter = 0
+        while (counter < allPositions) {
+
+            if (counter === position || (counter < position && (counter+chordsPerBar)>position) ) {
+
+                const isLastOne = position === allPositions
+
+                const chordInBar = position - counter
+                const result = {
+                    bar:counter/chordsPerBar,
+                    chordInBar:chordInBar,
+                    isLastOne
+                }
+                return result
+            }
+
+            counter = counter + chordsPerBar
+        }
+        return undefined
     }
 
     public set bpm(bpm: number) {

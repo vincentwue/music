@@ -14,10 +14,11 @@ export function useRerenderOnSubscribableChange(subscribable: ISubscribable) {
     useEffect(() => {
 
         if (subscribable) {
-            subscribable.onChange.subscribe(() => {
-                console.log("rerender", subscribable)
+            const sub = subscribable.onChange.subscribe(() => {
+                // console.log("rerender", subscribable)
                 setCounter((counter + 1))
             })
+            return () => sub.unsubscribe()
         }
 
     }, [subscribable, counter, setCounter])

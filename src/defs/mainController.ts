@@ -1,4 +1,5 @@
 
+import { BpmRunner } from "./BpmRunner";
 import { Tune } from "./tune";
 
 
