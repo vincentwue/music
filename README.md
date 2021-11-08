@@ -4,7 +4,8 @@ Finally build a nice structure of all useful scales and chords.
 
 Any music UI can now be build on top
 
-
+https://vincentwue.github.io/music/
+[https://vincentwue.github.io/music/](https://vincentwue.github.io/music/)
 
 # Getting Started with Create React App
 
