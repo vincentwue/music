@@ -52,7 +52,7 @@ export class BpmRunner implements ISubscribable {
 
             if (counter === position || (counter < position && (counter+chordsPerBar)>position) ) {
 
-                const isLastOne = position === allPositions
+                const isLastOne = position === allPositions-1
 
                 const chordInBar = position - counter
                 const result = {

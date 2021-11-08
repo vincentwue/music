@@ -24,10 +24,10 @@ export default function Sheet() {
     const position =  runner.getPosition(bars.length, tune.parts[0].subscribableConfig.config.MaxChordsPerBar.value)
     
     console.log(position)
-    if (position?.isLastOne) {
-        tune.randomPartsOrder()
-        runner.resetRenderCount()
-    }
+    // if (position?.isLastOne) {
+    //     tune.randomPartsOrder()
+    //     runner.resetRenderCount()
+    // }
 
     return <div className={classes.container}>
 
