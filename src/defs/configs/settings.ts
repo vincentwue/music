@@ -29,7 +29,7 @@ export interface ISetting {
 
 export enum SettingType {
     ConfigValueSetting = "ConfigValueSetting",
-    NumberArraySetting = "NumberArraySetting",
+    // NumberArraySetting = "NumberArraySetting",
     NumberSetting = "NumberSetting",
     BooleanSetting = "BooleanSetting",
 }
@@ -99,13 +99,13 @@ export class BooleanSetting extends Setting<boolean> {
 
 
 }
-export class NumberArraySetting extends Setting<number[]> {
+// export class NumberArraySetting extends Setting<number[]> {
 
 
-    constructor(value: number[], name:SettingName) {
-        super(value, SettingType.NumberArraySetting, name)
+//     constructor(value: number[], name:SettingName) {
+//         super(value, SettingType.NumberArraySetting, name)
 
-    }
+//     }
 
 
-}
+// }

@@ -1,4 +1,6 @@
 import { Interval, Intervals } from "./intervals"
+import { Note } from "./notes"
+import { SpecificInterval } from "./specificIntervals"
 
 export class Chord {
     id
@@ -14,6 +16,19 @@ export class Chord {
         this.intervals = intervals
         this.standardSymbol = standardSymbol
     }
+
+    public isPresentInNotes(rootNote:Note, notes:Note[]) {
+        // if (notes.length !== this.intervals.length) return
+
+        for (const interval of this.intervals) {
+            if (!notes.includes(SpecificInterval.calculateInterval(rootNote, interval))) {
+                return false
+            }
+        }
+
+        return true
+    }
+
 }
 
 export class Chords {
@@ -28,6 +43,12 @@ export class Chords {
         Intervals.MinorThird,
         Intervals.PerfectFifth],
         "_"
+    )
+    static MinorB5 = new Chord("minorb5",
+        [Intervals.PerfectUnison,
+        Intervals.MinorThird,
+        Intervals.Tritone],
+        "_b5"
     )
     static Major = new Chord("major", [
         Intervals.PerfectUnison,

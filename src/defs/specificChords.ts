@@ -12,7 +12,9 @@ export class SpecificChord {
     presentInScales: SpecificScale[] = []
     context?: SpecificScale
 
-    constructor(rootNote: Note, chord: Chord, context?: SpecificScale) {
+    specialContext?
+
+    constructor(rootNote: Note, chord: Chord, context?: SpecificScale, specialContext?:string) {
         this.rootNote = rootNote
         this.chord = chord
         this.name = rootNote.flat + chord.id
@@ -22,11 +24,12 @@ export class SpecificChord {
         this.notes = SpecificChord.calculateNotesForChord(rootNote, chord)
 
         this.context = context
+        this.specialContext = specialContext
     }
 
     get step() {
         if (!this.context) return ""
-        return this.context.notes.indexOf(this.rootNote)
+        return this.context.notes.indexOf(this.rootNote)+1
     }
 
     get render() {

@@ -6,7 +6,7 @@
 
 import { Subject } from "rxjs";
 import { ISubscribable } from "../../components/useRerenderOnSubscribableChange";
-import { BooleanSetting, ConfigValue, ConfigValueSetting, ISetting, NumberArraySetting, NumberSetting } from "./settings";
+import { BooleanSetting, ConfigValue, ConfigValueSetting, ISetting, /* NumberArraySetting */ NumberSetting } from "./settings";
 
 // SEE BARSCREATOR AND CHORDPROGRESSIONCREATOR
 
@@ -45,7 +45,8 @@ export interface IRandomConfig {
     // not implemented
     ChordComplexity: ConfigValueSetting
     KeyChange: BooleanSetting
-    DoNotUseSteps: NumberArraySetting
+    // DoNotUseSteps: NumberArraySetting
+    DoNotUseStep7:BooleanSetting
     EndWith6Or1: BooleanSetting
 
 
@@ -75,6 +76,7 @@ export enum SettingName {
     ChordComplexity="",
     KeyChange="KeyChange",
     DoNotUseSteps="DoNotUseSteps",
+    DoNotUseStep7="DoNotUseStep7",
     EndWith6Or1="EndWith6Or1",
 
     MaxChordsPerBar="MaxChordsPerBar",
@@ -99,8 +101,9 @@ export class RandomConfig implements IRandomConfig {
     // not implemented
     ChordComplexity= new ConfigValueSetting(ConfigValue.Medium, SettingName.ChordComplexity)
     KeyChange= new BooleanSetting(true, SettingName.KeyChange)
-    DoNotUseSteps= new NumberArraySetting([], SettingName.DoNotUseSteps)
+    // DoNotUseSteps= new NumberArraySetting([], SettingName.DoNotUseSteps)
     EndWith6Or1= new BooleanSetting(true, SettingName.EndWith6Or1)
+    DoNotUseStep7= new BooleanSetting(true, SettingName.DoNotUseStep7)
 
 
     // configs that refer to the distribution into bars

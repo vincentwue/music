@@ -7,7 +7,7 @@ import classes from "./Sheet.module.css"
 let runner = new BpmRunner(40, ()=>{
     // console.log("rerender runner")
 })
-
+runner.stop()
 export default function Sheet() {
 
     useRerenderOnSubscribableChange(MainController.tune)

@@ -1,4 +1,4 @@
-import { Chords } from "./chords";
+import { Chord, Chords } from "./chords";
 import { randomIntFromInterval, withProbability } from "./helper";
 import { IRandomConfig } from "./configs/configs"
 
@@ -32,7 +32,7 @@ export class ChordProgressionCreator {
 
         const scale = part.scale
 
-        const chords = []
+        let chords = []
         const twoFiveOnes = []
 
 
@@ -61,7 +61,7 @@ export class ChordProgressionCreator {
                 } else {
                     twoFiveOne = [
                         scale.getStepTetrad(7),
-                        scale.getStepTetrad(3),
+                        new SpecificChord(scale.getStepTetrad(3).rootNote, Chords.Chord7),
                         scale.getStepTetrad(6)
                     ]
                     last = scale.getStepTetrad(6)
@@ -79,9 +79,21 @@ export class ChordProgressionCreator {
             // Random single chord
             let newChord = scale.getRandomTetrad(last)
 
+            if (withProbability(config.ChordComplexity.value)) {
+                newChord = scale.getRandomCrzyChord()
+                console.log("new crzy", newChord)
+            }
+
             // UseAlwaysMajorThirdOnStep3
             if (newChord.step === 3 && config.UseAlwaysMajorThirdOnStep3.value) {
                 newChord = new SpecificChord(newChord.rootNote, Chords.Chord7)
+            }
+            if (newChord.step === 4 ) {
+                if (withProbability(config.ChordComplexity.value, true)) {
+
+                    newChord = new SpecificChord(newChord.rootNote, Chords.Chord7Sharp11, scale, "mixo #11")
+                    console.log("ccc", newChord)
+                }
             }
 
             last = newChord
@@ -89,6 +101,15 @@ export class ChordProgressionCreator {
             chords.push(newChord)
 
 
+        }
+
+        if (config.DoNotUseStep7.value) {
+            chords = chords.map(chord => {
+                if (chord.step === 7) {
+                    return scale.getRandomTriad()
+                }
+                return chord
+            })
         }
 
         // chords.forEach(chord => chord.)

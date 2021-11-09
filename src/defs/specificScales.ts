@@ -1,7 +1,7 @@
 
 import { chords, Chords } from "./chords"
 import { getScaleFromNote, randomFromArray, randomIntFromInterval } from "./helper"
-import { Interval, Intervals } from "./intervals"
+import {  Intervals } from "./intervals"
 import { Note, notes, Notes } from "./notes"
 import { Scale, scales, Scales } from "./scales"
 import { SpecificChord } from "./specificChords"
@@ -29,8 +29,9 @@ export class SpecificScale {
     id
     scaleType
 
-    // triads
+    triads
     tetrads
+    allChords
     // basicScale
 
     get rootNoteName() {
@@ -54,6 +55,9 @@ export class SpecificScale {
         this.notes = this.calculateScaleNotes(rootNote, scale, mode)
 
         this.tetrads = this.addTetrads(this.notes)
+        this.triads = this.addTriads(this.notes)
+
+            this.allChords = this.addCrazyChords(this.notes)
 
         if (mode && scale.modes === null) {
             console.error("Mode not present in scale", { rootNote, scale, mode })
@@ -78,13 +82,6 @@ export class SpecificScale {
     }
 
     private addTetrads(scaleNotes: Note[]) {
-
-        const tetrads = [
-            Chords.Major7,
-            Chords.Chord7,
-            Chords.Minor7,
-            Chords.Minor7b5
-        ]
 
         const res = []
         for (const note of scaleNotes) {
@@ -121,6 +118,65 @@ export class SpecificScale {
         return res
 
     }
+    private addTriads(scaleNotes: Note[]) {
+
+        const res = []
+        for (const note of scaleNotes) {
+            // const chords = specificChords
+
+            //     // Alle Vierklänge herausfinden
+            //     .filter(chord => chord.rootNote === note)
+            //     .filter(chord => tetrads.includes(chord.chord))
+            //     .filter(chord => chord.notes.every(note => scaleNotes.includes(note)))
+
+            // Get tetrad notes
+            const chordIntervals = getScaleFromNote(note, scaleNotes).filter((note, i) => i === 0 || i === 2 || i === 4)
+            // filter to intervals
+            .map(chordNote => SpecificInterval.intervalBetweenNotes(note, chordNote))
+
+            let foundChord;
+            for (const chord of chords) {
+                if (chordIntervals.every(interval => chord.intervals.includes(interval))) {
+                    foundChord = chord
+                    break;
+                }
+            }
+
+            if (foundChord) {
+                const specificChord = new SpecificChord(note, foundChord, this)
+                res.push(specificChord)
+                
+            } else {
+                console.error("Tetrad not found", {this:this, note, scaleNotes, chordIntervals})
+                
+            }
+
+        }
+        return res
+
+    }
+
+    private addCrazyChords(scaleNotes:Note[]) {
+
+        const res = []
+        for (const note of scaleNotes) {
+
+            const resultChords = []
+
+            for (const chord of chords) {
+                if (chord === Chords.PerfectUnison) continue;
+                const hasChord = chord.isPresentInNotes(note, scaleNotes)
+
+                if (hasChord) {
+                    resultChords.push(new SpecificChord(note, chord))
+                }
+            }
+            res.push(resultChords)
+
+        }
+        return res
+
+    }
 
     get RandomNote() {
         return randomFromArray(this.notes)
@@ -131,6 +187,15 @@ export class SpecificScale {
 
     getRandomTetrad(not?:SpecificChord) : SpecificChord {
         return randomFromArray(this.tetrads, [not])
+
+    }
+    getRandomTriad(not?:SpecificChord) : SpecificChord {
+        return randomFromArray(this.triads, [not])
+
+    }
+    getRandomCrzyChord(not?:SpecificChord) : SpecificChord {
+        const step = randomFromArray(this.allChords, [not])
+        return randomFromArray(step, [not])
 
     }
 

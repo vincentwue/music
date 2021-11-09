@@ -62,7 +62,7 @@ export default function Main() {
 
             <div className={classes.tune}>
 
-                <TuneRender tune={MainController.tune} />
+                {/* <TuneRender tune={MainController.tune} /> */}
                 <Sheet></Sheet>
 
             </div>
