@@ -3,7 +3,7 @@ import { chords, Chords } from "./chords"
 import { getScaleFromNote, randomFromArray, randomIntFromInterval } from "./helper"
 import {  Intervals } from "./intervals"
 import { Note, notes, Notes } from "./notes"
-import { Scale,  Scales } from "./scales"
+import { Scale,  scales,  Scales } from "./scales"
 import { SpecificChord } from "./specificChords"
 import { SpecificInterval } from "./specificIntervals"
 
@@ -264,19 +264,17 @@ export class SpecificScale {
     }
 
 }
-// export const specificScales = generateSpecificScales()
+
+export function generateSpecificScales() {
+    const result = []
 
 
-// function generateSpecificScales() {
-//     const result = []
+    for (const note of notes) {
+        for (const scale of scales) {
+            result.push(new SpecificScale(note, scale))
+        }
+    }
 
+    return result
 
-//     for (const note of notes) {
-//         for (const scale of scales) {
-//             result.push(new SpecificScale(note, scale))
-//         }
-//     }
-
-//     return result
-
-// }
+}

@@ -1,6 +1,9 @@
 import { Chord } from "./chords";
 import { Note, notes } from "./notes";
-import { SpecificScale} from "./specificScales";
+import { Scales } from "./scales";
+import { generateSpecificScales, SpecificScale, SpecificScales } from "./specificScales";
+
+let specificScales: SpecificScale[] | undefined
 
 export class SpecificChord {
 
@@ -9,12 +12,11 @@ export class SpecificChord {
     chord
     rootNote
     notes
-    presentInScales: SpecificScale[] = []
     context?: SpecificScale
 
     specialContext?
 
-    constructor(rootNote: Note, chord: Chord, context?: SpecificScale, specialContext?:string) {
+    constructor(rootNote: Note, chord: Chord, context?: SpecificScale, specialContext?: string) {
         this.rootNote = rootNote
         this.chord = chord
         this.name = rootNote.flat + chord.id
@@ -29,13 +31,45 @@ export class SpecificChord {
 
     get step() {
         if (!this.context) return ""
-        return this.context.notes.indexOf(this.rootNote)+1
+        return this.context.notes.indexOf(this.rootNote) + 1
     }
 
     get render() {
         if (!this.context) return this.rootNote.flat + this.chord.standardSymbol
-        return this.rootNote.render(this.context?.scaleType) + this.chord.standardSymbol 
+        return this.rootNote.render(this.context?.scaleType) + this.chord.standardSymbol
     }
+
+    get presentInScales() {
+        let presentIn = []
+        if (!specificScales) specificScales = generateSpecificScales()/* .filter(scale => scale.scale !== Scales.Chromatic) */
+        for (const scale of specificScales) {
+            if (this.notes.every(note => scale.notes.includes(note))) {
+                presentIn.push(scale)
+            }
+        }
+        return presentIn
+    }
+
+    get presentInScalesAsString() {
+        return this.presentInScales.map(scale => {
+
+            const mode = this.withContext(scale).step
+            const modeString = mode === "" ? "" : scale.scale.modes ?  scale.scale.modes[mode] : ""
+
+            const modeStringWithRoot = this.withContext(scale).render + " " + modeString
+
+            const s = scale.name +
+                " - step: " +
+                this.withContext(scale).step +
+                "  mode:  "+
+                modeStringWithRoot
+
+            return s
+
+        }).join("\n")
+    }
+
+
 
     private static calculateNotesForChord(rootNote: Note, chord: Chord) {
         const noteIndex = notes.indexOf(rootNote)

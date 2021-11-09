@@ -49,6 +49,8 @@ export interface IRandomConfig {
     DoNotUseStep7:BooleanSetting
     EndWith6Or1: BooleanSetting
 
+    UserMelodicMinorFromStep3:ConfigValueSetting
+    UseHarmonicMinorFromStep6:ConfigValueSetting
 
     // configs that refer to the distribution into bars
 
@@ -79,6 +81,9 @@ export enum SettingName {
     DoNotUseStep7="DoNotUseStep7",
     EndWith6Or1="EndWith6Or1",
 
+    UserMelodicMinorFromStep3="UserMelodicMinorFromStep3",
+    UseHarmonicMinorFromStep6="UseHarmonicMinorFromStep6",
+
     MaxChordsPerBar="MaxChordsPerBar",
     MinChordsPerBar="MinChordsPerBar",
     HowManyBars="HowManyBars",
@@ -94,16 +99,19 @@ export class RandomConfig implements IRandomConfig {
         // configs that refer to the chordProgression
 
     // implemented
-    JazzyProgressionness= new ConfigValueSetting( ConfigValue.Medium, SettingName.JazzyProgressionness)
+    JazzyProgressionness= new ConfigValueSetting( ConfigValue.None, SettingName.JazzyProgressionness)
     CircleOfFifthMaxCloseness= new NumberSetting(3, 1, 6,SettingName.CircleOfFifthMaxCloseness)
     UseAlwaysMajorThirdOnStep3= new BooleanSetting(true, SettingName.JazzyProgressionness)
 
     // not implemented
-    ChordComplexity= new ConfigValueSetting(ConfigValue.Medium, SettingName.ChordComplexity)
+    ChordComplexity= new ConfigValueSetting(ConfigValue.Insane, SettingName.ChordComplexity)
     KeyChange= new BooleanSetting(true, SettingName.KeyChange)
     // DoNotUseSteps= new NumberArraySetting([], SettingName.DoNotUseSteps)
     EndWith6Or1= new BooleanSetting(true, SettingName.EndWith6Or1)
     DoNotUseStep7= new BooleanSetting(true, SettingName.DoNotUseStep7)
+
+    UseHarmonicMinorFromStep6 = new ConfigValueSetting(ConfigValue.Rare, SettingName.UseHarmonicMinorFromStep6)
+    UserMelodicMinorFromStep3 = new ConfigValueSetting(ConfigValue.Rare, SettingName.UserMelodicMinorFromStep3)
 
 
     // configs that refer to the distribution into bars

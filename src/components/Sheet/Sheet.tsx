@@ -34,15 +34,17 @@ export default function Sheet() {
         {/* {(position && position?.bar) + " - "+ (position && position?.chordInBar)} */}
     
         {bars.map((bar, i) => {
+
+
+            
             return <div className={classes.bar}>
-            
-
-            
+        
                 {bar.chords.map((chord, j) => {
-
+                    
+                    const presentIn = chord?.presentInScalesAsString
                     const isCurrentPosition = position && position.bar === i && position.chordInBar === j
                     
-                    return <div className={classes.chord}>
+                    return <div className={classes.chord} title={presentIn}>
                         
 
                         {chord?.render}

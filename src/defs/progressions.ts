@@ -4,6 +4,12 @@ import { IRandomConfig } from "./configs/configs"
 
 import { SpecificChord } from "./specificChords";
 import { Part } from "./part";
+import { ConfigValue } from "./configs/settings";
+import { SpecificScale } from "./specificScales";
+import { Notes } from "./notes";
+import { Scales } from "./scales";
+import { SpecificInterval } from "./specificIntervals";
+import { Intervals } from "./intervals";
 
 export class ChordProgression {
 
@@ -79,8 +85,10 @@ export class ChordProgressionCreator {
             let newChord = scale.getRandomTetrad(last)
 
             if (withProbability(config.ChordComplexity.value)) {
-                newChord = scale.getRandomCrzyChord()
+                newChord = scale.getRandomCrzyChord().withContext(scale)
             }
+
+
 
             // UseAlwaysMajorThirdOnStep3
             if (newChord.step === 3 && config.UseAlwaysMajorThirdOnStep3.value) {
@@ -92,6 +100,19 @@ export class ChordProgressionCreator {
                     newChord = new SpecificChord(newChord.rootNote, Chords.Chord7Sharp11, scale, "mixo #11")
                     console.log("ccc", newChord)
                 }
+            }
+
+            if (withProbability(config.UseHarmonicMinorFromStep6.value)) {
+                
+                const harmonicMinorFromStep6 = new SpecificScale(SpecificInterval.calculateInterval(scale.rootNote, Intervals.MajorSixth), Scales.HarmonicMinor)
+                newChord = harmonicMinorFromStep6.getRandomCrzyChord().withContext(harmonicMinorFromStep6)
+                // console.log("harmonic melodic", newChord)
+
+            }
+            if (withProbability(config.UserMelodicMinorFromStep3.value)) {
+                const melodicMinorFromStep3 = new SpecificScale(SpecificInterval.calculateInterval(scale.rootNote, Intervals.MinorThird), Scales.MelodicMinor)
+                newChord = melodicMinorFromStep3.getRandomCrzyChord().withContext(melodicMinorFromStep3)
+                // console.log("harmonic melodic", newChord)
             }
 
             last = newChord
@@ -108,7 +129,13 @@ export class ChordProgressionCreator {
                 }
                 return chord
             })
+            chords = chords.map(chord => chord.chord === Chords.MinorB5 ? scale.getRandomTetrad() : chord)
+            chords = chords.map(chord => chord.chord === Chords.Minor7b5 ? scale.getRandomTetrad() : chord)
+            chords = chords.map(chord => chord.chord === Chords.Minor7b5 ? scale.getRandomTetrad() : chord)
+            chords = chords.map(chord => chord.chord === Chords.Minor7b5 ? scale.getRandomTetrad() : chord)
         }
+
+        
 
         // chords.forEach(chord => chord.)
 

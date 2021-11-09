@@ -76,40 +76,40 @@ export class Scales {
         ]
     )
 
-    static Chromatic = new Scale(
-        "chromatic",
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-    )
+    // static Chromatic = new Scale(
+    //     "chromatic",
+    //     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
+    // )
 
-    static MinorPentatonic = new Scale(
-        "minor pentatonic",
-        [3, 2, 2, 3, 2],
-    )
+    // static MinorPentatonic = new Scale(
+    //     "minor pentatonic",
+    //     [3, 2, 2, 3, 2],
+    // )
 
-    static MajorPentatonic = new Scale(
-        "major pentatonic",
-        [2, 2, 3, 2, 3],
-    )
+    // static MajorPentatonic = new Scale(
+    //     "major pentatonic",
+    //     [2, 2, 3, 2, 3],
+    // )
 
-    static MinorPentatonicBlues = new Scale(
-        "minor blues pentatonic",
-        [3, 2, 1, 1, 3, 2],
-    )
+    // static MinorPentatonicBlues = new Scale(
+    //     "minor blues pentatonic",
+    //     [3, 2, 1, 1, 3, 2],
+    // )
 
-    static MajorPentatonicBlues = new Scale(
-        "major blues pentatonic",
-        [2, 1, 1, 3, 2, 3],
-    )
+    // static MajorPentatonicBlues = new Scale(
+    //     "major blues pentatonic",
+    //     [2, 1, 1, 3, 2, 3],
+    // )
 
-    static BluesRocknRoll = new Scale(
-        "blues rock n roll",
-        [2, 1, 1, 1, 1, 1, 2, 1, 2],
-    )
+    // static BluesRocknRoll = new Scale(
+    //     "blues rock n roll",
+    //     [2, 1, 1, 1, 1, 1, 2, 1, 2],
+    // )
     
-    static BBKingBlues = new Scale(
-        "B.B. King blues",
-        [3, 3, 1, 1, 2],
-    )
+    // static BBKingBlues = new Scale(
+    //     "B.B. King blues",
+    //     [3, 3, 1, 1, 2],
+    // )
 
     static get Random() {
         return randomFromArray(scales)
