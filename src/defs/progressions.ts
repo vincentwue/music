@@ -81,7 +81,6 @@ export class ChordProgressionCreator {
 
             if (withProbability(config.ChordComplexity.value)) {
                 newChord = scale.getRandomCrzyChord()
-                console.log("new crzy", newChord)
             }
 
             // UseAlwaysMajorThirdOnStep3
