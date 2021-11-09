@@ -1,9 +1,8 @@
 
 
 import { SettingName } from "../../defs/configs/configs"
-import { ConfigValue, ConfigValueSetting, NumberSetting, Setting, SettingType } from "../../defs/configs/settings"
+import { ConfigValue, NumberSetting, SettingType } from "../../defs/configs/settings"
 import { createNumberArray, kebabize } from "../../defs/helper"
-import MainController from "../../defs/mainController"
 import { Part } from "../../defs/part"
 import { useRerenderOnSubscribableChange } from "../useRerenderOnSubscribableChange"
 import classes from "./PartConfig.module.css"

@@ -1,4 +1,4 @@
-import { Chord, chords } from "./chords";
+import { Chord } from "./chords";
 import { Note, notes } from "./notes";
 import { SpecificScale} from "./specificScales";
 
@@ -53,16 +53,16 @@ export class SpecificChord {
 
 // export const specificChords: SpecificChord[] = generateSpecificChords()
 
-function generateSpecificChords() {
-    const result = []
+// function generateSpecificChords() {
+//     const result = []
 
 
-    for (const note of notes) {
-        for (const chord of chords) {
-            result.push(new SpecificChord(note, chord))
-        }
-    }
+//     for (const note of notes) {
+//         for (const chord of chords) {
+//             result.push(new SpecificChord(note, chord))
+//         }
+//     }
 
-    return result
+//     return result
 
-}
+// }

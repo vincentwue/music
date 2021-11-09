@@ -1,9 +1,8 @@
-import { Chord, Chords } from "./chords";
+import {  Chords } from "./chords";
 import { randomIntFromInterval, withProbability } from "./helper";
 import { IRandomConfig } from "./configs/configs"
 
 import { SpecificChord } from "./specificChords";
-import { SpecificScale } from "./specificScales";
 import { Part } from "./part";
 
 export class ChordProgression {
