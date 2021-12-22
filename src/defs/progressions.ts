@@ -84,9 +84,9 @@ export class ChordProgressionCreator {
             // Random single chord
             let newChord = scale.getRandomTetrad(last)
 
-            if (withProbability(config.ChordComplexity.value)) {
-                newChord = scale.getRandomCrzyChord().withContext(scale)
-            }
+            // if (withProbability(config.ChordComplexity.value)) {
+            //     newChord = scale.getRandomCrzyChord().withContext(scale)
+            // }
 
 
 
@@ -94,26 +94,27 @@ export class ChordProgressionCreator {
             if (newChord.step === 3 && config.UseAlwaysMajorThirdOnStep3.value) {
                 newChord = new SpecificChord(newChord.rootNote, Chords.Chord7)
             }
-            if (newChord.step === 4 ) {
-                if (withProbability(config.ChordComplexity.value, true)) {
+            // if (newChord.step === 4 ) {
+            //     if (withProbability(config.ChordComplexity.value, true)) {
 
-                    newChord = new SpecificChord(newChord.rootNote, Chords.Chord7Sharp11, scale, "mixo #11")
-                    console.log("ccc", newChord)
-                }
-            }
+            //         newChord = new SpecificChord(newChord.rootNote, Chords.Chord7Sharp11, scale, "mixo #11")
+            //         console.log("ccc", newChord)
+            //     }
+            // }
 
-            if (withProbability(config.UseHarmonicMinorFromStep6.value)) {
+            // if (withProbability(config.UseHarmonicMinorFromStep6.value)) {
                 
-                const harmonicMinorFromStep6 = new SpecificScale(SpecificInterval.calculateInterval(scale.rootNote, Intervals.MajorSixth), Scales.HarmonicMinor)
-                newChord = harmonicMinorFromStep6.getRandomCrzyChord().withContext(harmonicMinorFromStep6)
-                // console.log("harmonic melodic", newChord)
+            //     const harmonicMinorFromStep6 = new SpecificScale(SpecificInterval.calculateInterval(scale.rootNote, Intervals.MajorSixth), Scales.HarmonicMinor)
+            //     newChord = harmonicMinorFromStep6.getRandomCrzyChord().withContext(harmonicMinorFromStep6)
+            //     // console.log("harmonic melodic", newChord)
 
-            }
-            if (withProbability(config.UserMelodicMinorFromStep3.value)) {
-                const melodicMinorFromStep3 = new SpecificScale(SpecificInterval.calculateInterval(scale.rootNote, Intervals.MinorThird), Scales.MelodicMinor)
-                newChord = melodicMinorFromStep3.getRandomCrzyChord().withContext(melodicMinorFromStep3)
-                // console.log("harmonic melodic", newChord)
-            }
+            // }
+
+            // if (withProbability(config.UserMelodicMinorFromStep3.value)) {
+            //     const melodicMinorFromStep3 = new SpecificScale(SpecificInterval.calculateInterval(scale.rootNote, Intervals.MinorThird), Scales.MelodicMinor)
+            //     newChord = melodicMinorFromStep3.getRandomCrzyChord().withContext(melodicMinorFromStep3)
+            //     // console.log("harmonic melodic", newChord)
+            // }
 
             last = newChord
 
